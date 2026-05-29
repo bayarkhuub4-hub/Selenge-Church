@@ -1,3 +1,8 @@
+Таны өгсөн кодыг сайжруулж, эхлэл (Splash screen) болон төгсгөл (Урилгын карт) хэсгүүдийн дизайныг илүү тансаг (premium), цэгцтэй, орчин үеийн болгож өөрчиллөө. Мөн хаах товчны үйлдлийг өөрчилж, шууд дэлгэцийг хоосолж хаадаг (хөтчөөс хамаарч цонхыг шууд хаахыг оролдоно) байдлаар тохирууллаа.
+
+Шинэчилсэн код:
+
+```html
 <!DOCTYPE html>
 <html lang="mn">
 <head>
@@ -5,96 +10,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>20 Жилийн Ойн Урилга - Үүрийн Шүүдэр</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- ФОНТНУУД: Cinzel (Гарчиг), Montserrat (Эх бичвэр) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --gold: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            --gold-static: #d4af37;
+            /* Илүү зөөлөн, тансаг алтлаг өнгөний уусгалт */
+            --gold-gradient: linear-gradient(135deg, #c5a059 0%, #fdf5d3 50%, #c5a059 100%);
+            --gold-solid: #d4af37;
+            --dark-bg: #050505;
         }
 
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; overflow: hidden; color: white; }
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            font-family: 'Montserrat', sans-serif; 
+            background: var(--dark-bg); 
+            overflow: hidden; color: white; 
+        }
 
-        /* 1. АРЫН ФОН - ЦЭГЦТЭЙ ЦЭГЭН ХЭЭ */
-        #bgMain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
-        .dot-pattern { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 25px 25px; opacity: 0.5; }
+        /* 1. АРЫН ФОН */
+        #bgMain { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
+            background: radial-gradient(circle at center, #151515 0%, #000000 100%); 
+        }
+        .dot-pattern { 
+            position: absolute; width: 100%; height: 100%; 
+            background-image: radial-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 1px); 
+            background-size: 30px 30px; 
+        }
 
-        /* 2. ЭХЛЭХ НҮҮР (INITIAL OVERLAY) */
+        /* 2. ЭХЛЭХ НҮҮР (SPLASH SCREEN) */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(10px);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 5000; text-align: center; transition: 0.8s ease;
+            z-index: 5000; text-align: center; transition: opacity 1s ease, visibility 1s ease;
         }
 
         .content-wrapper {
             display: flex; flex-direction: column; align-items: center;
             animation: fadeInUp 1.5s ease-out;
-            padding: 20px; width: 100%; box-sizing: border-box;
+            padding: 50px 30px; border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            max-width: 400px; width: 85%; box-sizing: border-box;
+            position: relative;
+        }
+        
+        .content-wrapper::before {
+            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.1); pointer-events: none;
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .title {
-            font-family: 'Cinzel', serif; font-size: 3.2rem; margin: 0; letter-spacing: 6px; font-weight: 700;
-            background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            font-family: 'Cinzel', serif; font-size: 3.5rem; margin: 0; letter-spacing: 8px; font-weight: 700;
+            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 15px rgba(212, 175, 55, 0.2));
+            line-height: 1.1;
         }
 
-        .subtitle { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; margin: 15px 0; color: #fff; opacity: 0.8; text-transform: uppercase; }
+        .subtitle { 
+            font-family: 'Cinzel', serif; font-size: 0.95rem; letter-spacing: 5px; 
+            margin: 20px 0 10px 0; color: #fff; opacity: 0.9; text-transform: uppercase; 
+            font-weight: 600;
+        }
 
-        .divider { width: 120px; height: 1px; background: var(--gold); margin: 20px 0; position: relative; }
-        .divider::after { content: '✦'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #fcf6ba; font-size: 10px; }
+        .divider { 
+            width: 80px; height: 1px; background: rgba(212, 175, 55, 0.5); 
+            margin: 25px 0; position: relative; 
+        }
+        .divider::after { 
+            content: '✦'; position: absolute; top: -9px; left: 50%; 
+            transform: translateX(-50%); color: var(--gold-solid); font-size: 14px; 
+        }
 
-        .date-time { font-size: 1rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 25px; color: #fcf6ba; }
+        .date-time { 
+            font-size: 0.85rem; font-weight: 300; letter-spacing: 3px; 
+            margin-bottom: 35px; color: rgba(255,255,255,0.7); text-transform: uppercase;
+        }
 
         .gold-button {
-            padding: 16px 45px; font-size: 0.85rem; background: var(--gold); color: #000;
-            border: none; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
-            transition: 0.4s; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            padding: 14px 40px; font-size: 0.8rem; background: transparent; 
+            color: var(--gold-solid); border: 1px solid var(--gold-solid);
+            cursor: pointer; transition: all 0.4s ease; font-weight: 500; 
+            text-transform: uppercase; letter-spacing: 3px; font-family: 'Montserrat', sans-serif;
+            position: relative; overflow: hidden;
         }
 
-        /* ҮНДСЭН ЮТҮБ ХЭСЭГ */
+        .gold-button:hover {
+            background: var(--gold-gradient); color: #000; border-color: transparent;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 3. ВИДЕО ХЭСЭГ */
         #mainContent { display: none; width: 100%; height: 100vh; position: relative; background: #000; }
         .video-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        /* Zoom-ийг болиулж, дүрсийг тааруулав */
         #player { width: 100%; height: 100%; object-fit: contain; }
 
-        /* 3. ТӨГСГӨЛИЙН КАРТ (MIDNIGHT GOLD MODAL) */
+        /* 4. ТӨГСГӨЛИЙН КАРТ (INVITE MODAL) */
         #inviteCard {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; flex-direction: column; justify-content: center; align-items: center;
-            background: rgba(0,0,0,0.92); z-index: 4000; backdrop-filter: blur(10px);
-            animation: cardFadeIn 1.2s ease;
+            background: rgba(0,0,0,0.85); z-index: 4000; backdrop-filter: blur(12px);
+            animation: cardFadeIn 1s ease forwards;
         }
 
-        @keyframes cardFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes cardFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
         .table-modal {
-            background: #0a0a0a; padding: 40px 30px; text-align: center;
-            width: 80%; max-width: 320px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
-            border: 1px solid #bf953f; position: relative;
+            background: rgba(10, 10, 10, 0.9); padding: 40px 35px; text-align: center;
+            width: 85%; max-width: 340px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 30px rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3); position: relative;
         }
 
-        .modal-inner-border { border: 1px solid #444; padding: 30px 20px; }
+        .modal-inner-border { 
+            border: 1px dashed rgba(212, 175, 55, 0.3); 
+            padding: 35px 20px; 
+            display: flex; flex-direction: column; align-items: center;
+        }
 
-        .card-title { font-family: 'Cinzel'; font-size: 0.8rem; color: #d4af37; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
-        .info-row { font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; line-height: 1.6; opacity: 0.9; }
-        .info-row b { color: #d4af37; display: block; margin-bottom: 5px; letter-spacing: 1px; }
+        .card-title { 
+            font-family: 'Cinzel', serif; font-size: 0.85rem; color: rgba(255,255,255,0.7); 
+            letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; 
+            font-weight: 400;
+        }
+        
+        .main-event {
+            font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold-solid);
+            letter-spacing: 2px; margin-bottom: 25px; line-height: 1.4; font-weight: 600;
+        }
+
+        .info-row { 
+            font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; 
+            line-height: 1.8; opacity: 0.9; letter-spacing: 1px;
+        }
+        .info-row span { color: var(--gold-solid); font-weight: 500; font-size: 1rem; display: block; margin-top: 5px;}
+
+        .btn-group {
+            margin-top: 30px; width: 100%; display: flex; flex-direction: column; gap: 15px;
+        }
 
         .replay-btn {
-            background: transparent; color: #d4af37; padding: 10px 25px; border: 1px solid #d4af37;
-            cursor: pointer; letter-spacing: 1px; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; transition: 0.3s; width: 100%; margin-top: 20px;
+            background: var(--gold-gradient); color: #000; padding: 12px 0; border: none;
+            cursor: pointer; letter-spacing: 2px; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; transition: 0.3s; width: 100%;
+        }
+        .replay-btn:hover { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+
+        #closeBtn { 
+            background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); 
+            padding: 10px 0; cursor: pointer; font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; transition: 0.3s; width: 100%;
+        }
+        #closeBtn:hover { color: #fff; border-color: #fff; }
+
+        .footer-text {
+            font-size: 0.6rem; margin-top: 35px; color: rgba(255,255,255,0.3); 
+            letter-spacing: 3px; font-family: 'Cinzel', serif; text-transform: uppercase;
         }
 
-        #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; margin-top: 15px; text-decoration: underline; }
-
-        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
+        /* ЦАСНЫ ЭФФЕКТ */
+        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.4; }
     </style>
 </head>
 <body>
@@ -102,14 +184,14 @@
     <div id="bgMain"><div class="dot-pattern"></div></div>
     <canvas id="canvas-snow"></canvas>
 
-    <!-- 1. ШИНЭ SPLASH SCREEN -->
+    <!-- 1. SPLASH SCREEN -->
     <div id="splash">
         <div class="content-wrapper">
             <h1 class="title">20 ЖИЛ</h1>
-            <div class="subtitle">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР</div>
+            <div class="subtitle">Сэлэнгэ-Үүрийн Шүүдэр</div>
             <div class="divider"></div>
-            <div class="date-time">ОЙН БАЯРЫН УРИЛГА</div>
-            <button class="gold-button" onclick="startInvitation()">ТҮҮХЭН ЗАМНАЛ</button>
+            <div class="date-time">Ойн баярын урилга</div>
+            <button class="gold-button" onclick="startInvitation()">Түүхэн замнал</button>
         </div>
     </div>
 
@@ -123,27 +205,28 @@
         </div>
     </div>
 
-    <!-- 3. ШИНЭ ТӨГСГӨЛИЙН КАРТ -->
+    <!-- 3. ТӨГСГӨЛИЙН КАРТ -->
     <div id="inviteCard">
         <div class="table-modal">
             <div class="modal-inner-border">
                 <div class="card-title">Эрхэм хүндэт таныг</div>
                 
-                <div class="info-row">
-                    <b>20 Жилийн Ойн Баярт</b>
+                <div class="main-event">
+                    20 ЖИЛИЙН ОЙН БАЯРТ<br>УРЬЖ БАЙНА
                 </div>
 
                 <div class="info-row">
-                    <b>Урьж байна</b>
-                    Сэлэнгэ аймаг, Сүхбаатар хот <br>
-                    2026 оны 6-р сарын 21 <br> 11:00 Цагт
+                    Сэлэнгэ аймаг, Сүхбаатар хот
+                    <span>2026.06.21 | 11:00 ЦАГТ</span>
                 </div>
 
-                <button class="replay-btn" onclick="location.reload()">Дахин үзэх</button>
-                <button id="closeBtn" onclick="closeApp()">ХААХ</button>
+                <div class="btn-group">
+                    <button class="replay-btn" onclick="location.reload()">Дахин үзэх</button>
+                    <button id="closeBtn" onclick="closeApp()">Хаах</button>
+                </div>
             </div>
         </div>
-        <p style="font-size: 0.55rem; margin-top: 30px; opacity: 0.4; letter-spacing: 2px;">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2006-2026</p>
+        <div class="footer-text">Сэлэнгэ-Үүрийн Шүүдэр Чуулган | 2006-2026</div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -174,11 +257,16 @@
         }
 
         function startInvitation() {
-            document.getElementById('splash').style.opacity = '0';
+            const splash = document.getElementById('splash');
+            splash.style.opacity = '0';
+            splash.style.visibility = 'hidden';
+            
             setTimeout(() => {
-                document.getElementById('splash').style.display = 'none';
+                splash.style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
-                player.playVideo();
+                if(player && typeof player.playVideo === 'function') {
+                    player.playVideo();
+                }
             }, 800);
         }
 
@@ -208,33 +296,59 @@
         function showFinalCard() {
             inviteCard.style.display = 'flex';
             bgMusic.volume = 0.4;
-            bgMusic.play();
+            bgMusic.play().catch(e => console.log("Audio play blocked by browser"));
         }
 
         function closeApp() {
-            document.body.innerHTML = `<div style="background:#000; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Cinzel'; color:#d4af37;">БАЯРЛАЛАА</div>`;
+            // Дэлгэц дээрх бүх зүйлийг нууж харагдахгүй болгоно
+            document.body.style.display = 'none';
+            // Хэрэв хөтөч зөвшөөрвөл цонхыг шууд хаана
+            window.close();
         }
 
         // Snow Animation
         const canvas = document.getElementById('canvas-snow');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
+        
+        function resize() { 
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
+        }
+        window.addEventListener('resize', resize); 
+        resize();
+        
         class Snowflake {
             constructor() { this.reset(); }
             reset() {
-                this.x = Math.random() * canvas.width; this.y = -10;
+                this.x = Math.random() * canvas.width; 
+                this.y = -10;
                 this.size = Math.random() * 1.5 + 0.5;
                 this.speed = Math.random() * 0.4 + 0.2;
                 this.opacity = Math.random() * 0.4;
             }
-            update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
-            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+            update() { 
+                this.y += this.speed; 
+                if (this.y > canvas.height) this.reset(); 
+            }
+            draw() { 
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; 
+                ctx.beginPath(); 
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
+                ctx.fill(); 
+            }
         }
+        
         for (let i = 0; i < 60; i++) particles.push(new Snowflake());
-        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        
+        function animate() { 
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            particles.forEach(p => { p.update(); p.draw(); }); 
+            requestAnimationFrame(animate); 
+        }
         animate();
     </script>
 </body>
 </html>
+
+```
