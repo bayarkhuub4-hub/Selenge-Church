@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>20 Жилийн Ойн Урилга - Үүрийн Шүүдэр</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -30,13 +30,9 @@
         .content-wrapper {
             display: flex; flex-direction: column; align-items: center;
             animation: fadeInUp 1.5s ease-out;
-            padding: 40px; 
-            box-sizing: border-box;
-            position: relative;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            overflow: hidden;
+            padding: 40px; box-sizing: border-box; position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px;
+            background: rgba(0, 0, 0, 0.5); overflow: hidden;
         }
 
         .content-wrapper::before {
@@ -55,10 +51,8 @@
         }
 
         .subtitle { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; margin: 15px 0; color: #fff; opacity: 0.8; text-transform: uppercase; }
-
         .divider { width: 120px; height: 1px; background: var(--gold); margin: 20px 0; position: relative; }
         .divider::after { content: '✦'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #fcf6ba; font-size: 10px; }
-
         .date-time { font-size: 1rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 25px; color: #fcf6ba; }
 
         .gold-button {
@@ -67,38 +61,59 @@
             transition: 0.4s; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* 3. ВИДЕО ХЭСЭГ (Зөөлөн шаргал, хөдөлгөөнт туяат фон) */
+        /* 3. ВИДЕО ХЭСЭГ */
         #mainContent { 
-            display: none; width: 100%; height: 100vh; position: relative;
-            background: linear-gradient(135deg, #110a02, #2a1b05, #0a0601, #301f05);
-            background-size: 400% 400%;
-            animation: goldBgFlow 15s ease infinite;
-            overflow: hidden;
-        }
-        
-        /* Бүдэг гэрлүүд (Дээд болон доод хэсэгт хөдөлнө) */
-        #mainContent::before, #mainContent::after {
-            content: ''; position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.35; pointer-events: none;
-        }
-        #mainContent::before {
-            width: 350px; height: 350px; background: #d4af37; top: -50px; left: -100px;
-            animation: floatLight1 12s infinite alternate ease-in-out;
-        }
-        #mainContent::after {
-            width: 450px; height: 450px; background: #bf953f; bottom: -100px; right: -50px;
-            animation: floatLight2 15s infinite alternate ease-in-out;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100vh; 
+            background: #050300; overflow: hidden;
+            z-index: 1; 
         }
 
-        @keyframes goldBgFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes floatLight1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 80px) scale(1.1); } }
-        @keyframes floatLight2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-80px, -60px) scale(1.2); } }
+        .click-shield {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4;
+        }
+
+        .video-overlay-text {
+            position: absolute; left: 0; width: 100%; text-align: center;
+            z-index: 5; pointer-events: none; font-family: 'Cinzel', serif;
+        }
+        
+        /* Дээд талын текст - ШИНЭЧЛЭГДСЭН (Дээшлүүлсэн, Болд, Шинэ эффект) */
+        .text-top {
+            top: 11%; /* Үл ялиг дээшлүүлсэн (хуучин 15% байсан) */
+            font-size: 0.95rem; letter-spacing: 5px; 
+            font-weight: 700; /* Bold болгосон */
+            text-transform: uppercase;
+            /* Доод бичигтэй адилхан гэрэлтэх эффект */
+            background: linear-gradient(120deg, #b38728 0%, #fcf6ba 15%, #d4af37 30%, #aa771c 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShineSweep 5s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
+        }
+
+        /* Доод талын текст */
+        .text-bottom {
+            bottom: 22%; font-size: 2.2rem;
+            letter-spacing: 8px; font-weight: 700; text-transform: uppercase;
+            
+            background: linear-gradient(120deg, #b38728 0%, #fcf6ba 15%, #d4af37 30%, #aa771c 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShineSweep 5s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
+        }
+        @keyframes textShineSweep {
+            0% { background-position: 300% center; }
+            100% { background-position: 0% center; }
+        }
 
         .video-container { 
             width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; 
-            position: relative; z-index: 2;
-            transform: translateY(-8%);
+            position: relative; z-index: 2; transform: translateY(-8%);
         }
-        #player { width: 100%; height: 100%; object-fit: contain; }
+        #player { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
         /* 4. ТӨГСГӨЛИЙН КАРТ */
         #inviteCard {
@@ -119,10 +134,15 @@
         .modal-inner-border { border: 1px solid #444; padding: 25px 15px 15px 15px; position: relative; }
 
         .card-title { font-family: 'Cinzel'; font-size: 0.8rem; color: #d4af37; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
+        
+        .main-event-text {
+            font-family: 'Cinzel', serif; font-size: 1.2rem; color: #d4af37;
+            letter-spacing: 2px; margin: 25px 0 20px 0; font-weight: 700;
+            text-transform: uppercase; text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
         .info-row { font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; line-height: 1.6; opacity: 0.9; }
         .info-row b { color: #d4af37; display: block; margin-bottom: 5px; letter-spacing: 1px; }
-
-        /* Байршил, хугацааны хэсгийг тусгаарлаж зай авах */
         .location-box { margin-top: 30px; }
 
         .action-buttons { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; }
@@ -137,32 +157,48 @@
         #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; text-decoration: underline; }
         #closeBtn:hover { color: #fff; }
 
-        .donate-section {
-            margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.2); width: 100%;
-        }
-
+        .donate-section { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.2); width: 100%; }
         .donate-btn {
             background: transparent; color: #fcf6ba; padding: 8px 25px; border: 1px solid rgba(252, 246, 186, 0.4);
             cursor: pointer; letter-spacing: 1px; font-size: 0.7rem; font-weight: 400; text-transform: uppercase; transition: 0.3s; display: inline-block; opacity: 0.8;
         }
         .donate-btn:hover { opacity: 1; background: rgba(252, 246, 186, 0.1); }
 
-        /* ХАНДИВЫН МЭДЭЭЛЭЛ (MODAL ДОТОРХ MODAL) */
+        /* ХАНДИВЫН МЭДЭЭЛЭЛ */
         #donateInfo {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0a0a0a; display: none; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10; box-sizing: border-box;
+            background: rgba(10, 10, 10, 0.98); display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10; box-sizing: border-box; backdrop-filter: blur(5px);
         }
         
-        .donate-inner-border {
-            border: 1px solid #444; width: calc(100% - 40px); height: calc(100% - 40px);
-            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
+        .donate-inner-card {
+            width: 85%; max-width: 280px; padding: 35px 25px;
+            background: rgba(15, 15, 15, 0.8); border-radius: 6px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+        
+        .donate-inner-card::before {
+            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px dashed rgba(212, 175, 55, 0.2); pointer-events: none;
         }
 
-        .bank-info { font-size: 0.85rem; text-align: left; line-height: 1.8; color: #fff; margin-bottom: 20px; }
-        .bank-info b { color: #fcf6ba; }
+        .bank-info-minimal {
+            display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; margin-top: 25px;
+        }
+        .info-item {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 6px;
+        }
+        .info-item span {
+            font-size: 0.6rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px;
+        }
+        .info-item div {
+            font-size: 0.85rem; color: #fff; font-weight: 300; letter-spacing: 1px; text-align: right;
+        }
+        .info-item.highlight div { color: #d4af37; font-weight: 500; font-size: 0.95rem; }
 
-        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
+        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.6; }
     </style>
 </head>
 <body>
@@ -184,9 +220,13 @@
     <!-- Арын ая -->
     <audio id="bgMusic" src="music.mp3" loop></audio>
 
-    <!-- 2. ВИДЕО ХЭСЭГ (Хөдөлгөөнт туяатай арын дэвсгэр) -->
+    <!-- 2. ВИДЕО ХЭСЭГ -->
     <div id="mainContent">
+        <div class="video-overlay-text text-top">Сэлэнгэ-Үүрийн Шүүдэр</div>
+        <div class="video-overlay-text text-bottom">20 ЖИЛ</div>
+
         <div class="video-container">
+            <div class="click-shield"></div>
             <div id="player"></div>
         </div>
     </div>
@@ -198,18 +238,17 @@
             <div class="modal-inner-border">
                 <div class="card-title">Эрхэм хүндэт таныг</div>
                 
-                <div class="info-row">
-                    <b>20 Жилийн Ойн Баярт</b>
+                <div class="main-event-text">
+                    20 Жилийн Ойн Баярт
                 </div>
 
                 <div class="info-row">
                     <b>Урьж байна</b>
                 </div>
 
-                <!-- Зай авсан байршлын хэсэг -->
                 <div class="info-row location-box">
-                    Сэлэнгэ аймаг, Сүхбаатар хот <br>
                     2026 оны 6-р сарын 21 <br> 11:00 Цагт
+                    Сэлэнгэ аймаг, Сүхбаатар хот <br>
                 </div>
 
                 <div class="action-buttons">
@@ -217,23 +256,35 @@
                     <button id="closeBtn" onclick="closeApp()">ХААХ</button>
                 </div>
 
-                <!-- Хандив өргөх товчлуур -->
                 <div class="donate-section">
                     <button class="donate-btn" onclick="showDonate()">Хандив өргөх</button>
                 </div>
             </div>
 
-            <!-- ХАНДИВЫН МЭДЭЭЛЛИЙН ХЭСЭГ (Дарсны дараа гарч ирнэ) -->
             <div id="donateInfo">
-                <div class="donate-inner-border">
-                    <div class="card-title">Хандивын данс</div>
-                    <div class="bank-info">
-                        Банк: <b>ХААН БАНК</b><br>
-                        Данс: <b>5000000000</b><br> <!-- Өөрийн дансаа бичнэ -->
-                        Хүлээн авагч: <b>Б. Бат</b><br> <!-- Хүлээн авагчийн нэр -->
-                        Гүйлгээний утга: <b>Ойн хандив</b>
+                <div class="donate-inner-card">
+                    <div class="card-title" style="margin-bottom: 0;">Хандивын данс</div>
+                    
+                    <div class="bank-info-minimal">
+                        <div class="info-item">
+                            <span>Банк</span>
+                            <div>Голомт банк</div>
+                        </div>
+                        <div class="info-item highlight">
+                            <span>Данс</span>
+                            <div>MN89001500 1415101610</div>
+                        </div>
+                        <div class="info-item">
+                            <span>Хүлээн авагч</span>
+                            <div>Үүрийн Шүүдрийн Үе</div>
+                        </div>
+                        <div class="info-item" style="border-bottom: none;">
+                            <span>Гүйлгээний утга</span>
+                            <div>Өөрийн нэр, Selenge20</div>
+                        </div>
                     </div>
-                    <button class="replay-btn" style="width: 100%; margin-top: 10px;" onclick="hideDonate()">Буцах</button>
+
+                    <button class="replay-btn" style="width: 100%; position: relative; z-index: 2;" onclick="hideDonate()">Буцах</button>
                 </div>
             </div>
 
@@ -261,7 +312,10 @@
                     'rel': 0,
                     'modestbranding': 1,
                     'playsinline': 1,
-                    'vq': 'hd720'
+                    'disablekb': 1,
+                    'iv_load_policy': 3,
+                    'fs': 0,
+                    // 'vq': 'hd1080' // Энэ нь заримдаа ажилладаггүй тул JS-ээр хүчилнэ
                 },
                 events: {
                     'onStateChange': onPlayerStateChange
@@ -270,18 +324,32 @@
         }
 
         function startInvitation() {
-            document.getElementById('splash').style.opacity = '0';
+            if(player && typeof player.playVideo === 'function') {
+                // Эхлээд mute хийж тоглуулна (Autoplay policy давах)
+                player.mute(); 
+                player.playVideo();
+            }
+            
+            const splash = document.getElementById('splash');
+            splash.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('splash').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                if(player && player.playVideo) {
-                    player.playVideo();
-                }
+                splash.style.display = 'none';
             }, 800);
         }
 
         function onPlayerStateChange(event) {
+            // Бичлэг тоглож эхлэх үед (PLAYING)
             if (event.data == YT.PlayerState.PLAYING) {
+                
+                // ШИНЭ: Программаар өндөр нягтралыг шаардах
+                if (player && typeof player.setPlaybackQuality === 'function') {
+                    player.setPlaybackQuality('hd1080'); // Эсвэл 'highres'
+                }
+
+                // Дууг нь нээх
+                if (player && typeof player.unMute === 'function') {
+                    player.unMute();
+                }
                 bgMusic.pause();
                 startCheckingTime();
             } else {
@@ -291,6 +359,7 @@
 
         function startCheckingTime() {
             checkTimer = setInterval(() => {
+                if(!player.getDuration) return;
                 let duration = player.getDuration();
                 let currentTime = player.getCurrentTime();
                 if (duration > 0 && (duration - currentTime <= 5)) {
@@ -309,10 +378,10 @@
         }
 
         function closeApp() {
-            document.body.innerHTML = `<div style="background:#000; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Cinzel'; color:#d4af37;">БАЯРЛАЛАА</div>`;
+            document.body.innerHTML = '';
+            window.close();
         }
 
-        // Хандивын мэдээлэл харуулах, нуух функц
         function showDonate() {
             donateInfo.style.display = 'flex';
         }
@@ -320,7 +389,6 @@
             donateInfo.style.display = 'none';
         }
 
-        // Snow Animation
         const canvas = document.getElementById('canvas-snow');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -332,7 +400,7 @@
                 this.x = Math.random() * canvas.width; this.y = -10;
                 this.size = Math.random() * 1.5 + 0.5;
                 this.speed = Math.random() * 0.4 + 0.2;
-                this.opacity = Math.random() * 0.4;
+                this.opacity = Math.random() * 0.6;
             }
             update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
             draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
