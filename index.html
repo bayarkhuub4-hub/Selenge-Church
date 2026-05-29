@@ -18,7 +18,12 @@
         #aura { position: absolute; width: 150vw; height: 150vw; top: -25%; left: -25%; background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 60%); animation: rotateAura 25s infinite linear; z-index: -1; }
         @keyframes rotateAura { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        #splash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--navy); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: 1s ease; }
+        #splash { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: var(--navy); z-index: 9999; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center; transition: 1s ease; 
+        }
+        
         .anniversary-text { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem; letter-spacing: 5px; font-weight: 900; }
         .sub-title { font-size: 0.8rem; letter-spacing: 3px; opacity: 0.6; margin-top: 10px; text-transform: uppercase; }
 
@@ -95,7 +100,7 @@
             player = new YT.Player('player', {
                 height: '100%',
                 width: '100%',
-                videoId: '7NtY19pqgyk', // <-- ТАНЫ ВИДЕО ID ШУУД ОРСОН БАЙГАА
+                videoId: '8mP5xOg7ics', 
                 playerVars: {
                     'autoplay': 0,
                     'controls': 1,
@@ -114,21 +119,33 @@
             setTimeout(() => {
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'flex';
+                
+                // Бичлэг эхлэх хүртэл арын аяыг аяархан явуулж болно
+                bgMusic.volume = 0.2;
+                bgMusic.play();
+                
                 player.playVideo();
             }, 800);
         }
 
         function onPlayerStateChange(event) {
+            // Бичлэг тоглож эхлэх үед (PLAYING)
             if (event.data == YT.PlayerState.PLAYING) {
-                bgMusic.pause();
+                bgMusic.pause(); // Арын аяыг зогсооно
             } 
+            // Бичлэг дуусах үед (ENDED)
             else if (event.data == YT.PlayerState.ENDED) {
                 inviteCard.style.display = 'flex';
                 bgMusic.volume = 0.4;
-                bgMusic.play();
+                bgMusic.play(); // Арын аяыг тоглуулна
             }
+            // Бичлэгийг түр зогсоох үед (PAUSED)
             else if (event.data == YT.PlayerState.PAUSED) {
-                bgMusic.play();
+                bgMusic.pause(); // Арын ая явахгүй, чимээгүй байна
+            }
+            // Бичлэг ачаалж байх үед (BUFFERING)
+            else if (event.data == YT.PlayerState.BUFFERING) {
+                bgMusic.pause();
             }
         }
 
