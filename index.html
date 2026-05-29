@@ -5,149 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>20 Жилийн Ойн Урилга - Үүрийн Шүүдэр</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --gold: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            --gold-static: #d4af37;
+            --gold: #d4af37;
             --gold-light: #fcf6ba;
+            --dark-bg: #030303;
         }
 
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; overflow: hidden; color: white; }
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            font-family: 'Montserrat', sans-serif; background: var(--dark-bg); 
+            overflow: hidden; color: white; 
+        }
 
-        /* 1. АРЫН ФОН */
-        #bgMain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
-        .dot-pattern { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.6; }
+        /* 1. АРЫН ФОН - Илүү цэвэрхэн минималист */
+        #bgMain { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
+            background: radial-gradient(circle at center, #111 0%, #000 100%); 
+        }
+        .dot-pattern { 
+            position: absolute; width: 100%; height: 100%; 
+            background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px); 
+            background-size: 40px 40px; opacity: 0.5; 
+        }
 
-        /* 2. ЭХЛЭХ НҮҮР (SPLASH SCREEN) - ЗАСВАРУУД */
+        /* 2. ЭХЛЭХ НҮҮР (SPLASH SCREEN) - МИНИМАЛИСТ */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* Тансаг арын дэвсгэр */
-            background: radial-gradient(circle at center, rgba(30,30,30,1) 0%, rgba(0,0,0,1) 100%);
+            background: transparent;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 5000; text-align: center; transition: 0.8s ease;
         }
 
-        /* Гоёмсог хүрээ бүхий агуулгын хэсэг */
         .content-wrapper {
             display: flex; flex-direction: column; align-items: center;
             animation: fadeInUp 1.5s ease-out;
-            padding: 60px 40px; width: 85%; max-width: 400px; box-sizing: border-box;
-            position: relative;
-            
-            /* Үндсэн хүрээ */
-            background: rgba(10, 10, 10, 0.9);
-            border: 2px solid #bf953f;
-            box-shadow: 0 0 30px rgba(191, 149, 63, 0.2);
+            padding: 40px 20px; width: 90%; max-width: 400px;
+            /* Ямар ч нүсэр хүрээгүй, зөвхөн текстэндээ анхаарсан цэвэрхэн загвар */
         }
-
-        /* Гоёмсог булангийн хээ (Art-Deco стиль) */
-        .content-wrapper::before, .content-wrapper::after,
-        .corner-ornament-tr, .corner-ornament-bl {
-            content: '';
-            position: absolute;
-            width: 35px; height: 35px;
-            border: 2px solid var(--gold-light);
-        }
-        /* Зүүн дээд */
-        .content-wrapper::before { top: -10px; left: -10px; border-right: none; border-bottom: none; }
-        /* Баруун доод */
-        .content-wrapper::after { bottom: -10px; right: -10px; border-left: none; border-top: none; }
-        /* Баруун дээд */
-        .corner-ornament-tr { top: -10px; right: -10px; border-left: none; border-bottom: none; }
-        /* Зүүн доод */
-        .corner-ornament-bl { bottom: -10px; left: -10px; border-right: none; border-top: none; }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ХАМГИЙН ДЭЭР БАЙРЛАХ ТЕКСТ */
         .top-label {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            margin: 0 0 10px 0;
-            color: #fff;
-            opacity: 0.9;
-            text-transform: uppercase;
-            font-weight: 400;
+            font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 6px;
+            margin: 0 0 15px 0; color: rgba(255,255,255,0.7); text-transform: uppercase; font-weight: 400;
         }
 
         .title {
-            font-family: 'Cinzel', serif; font-size: 3.8rem; margin: 0; letter-spacing: 8px; font-weight: 900;
-            background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.4));
+            font-family: 'Cinzel', serif; font-size: 4rem; margin: 0; letter-spacing: 10px; font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
             line-height: 1;
         }
 
-        /* Хуучин subtitle одоо top-label болов */
-
         .divider { 
-            width: 150px; height: 1px; 
-            background: linear-gradient(to right, transparent, var(--gold-static), transparent); 
-            margin: 25px 0; position: relative; 
+            width: 100px; height: 1px; background: rgba(212, 175, 55, 0.4); 
+            margin: 30px 0; position: relative; 
         }
-        .divider::after { content: '✦'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: var(--gold-light); font-size: 12px; }
+        .divider::after { 
+            content: '❖'; position: absolute; top: -9px; left: 50%; 
+            transform: translateX(-50%); color: var(--gold); font-size: 14px; 
+        }
 
-        .date-time { font-size: 0.9rem; font-weight: 200; letter-spacing: 3px; margin-bottom: 35px; color: var(--gold-light); text-transform: uppercase;}
+        .date-time { 
+            font-size: 0.85rem; font-weight: 300; letter-spacing: 4px; 
+            margin-bottom: 40px; color: rgba(255,255,255,0.6); text-transform: uppercase;
+        }
 
+        /* Жижигсгэсэн, гоёмсог товчлуур */
         .gold-button {
-            padding: 16px 50px; font-size: 0.8rem; background: var(--gold); color: #000;
-            border: none; cursor: pointer; box-shadow: 0 5px 25px rgba(212, 175, 55, 0.3);
-            transition: 0.4s; font-weight: 800; text-transform: uppercase; letter-spacing: 3px;
-            border-radius: 2px;
+            padding: 12px 35px; font-size: 0.75rem; background: transparent; color: var(--gold);
+            border: 1px solid var(--gold); cursor: pointer; transition: 0.4s; 
+            font-weight: 400; text-transform: uppercase; letter-spacing: 3px; font-family: 'Montserrat', sans-serif;
         }
-        .gold-button:hover {
-            box-shadow: 0 5px 35px rgba(212, 175, 55, 0.6);
-            transform: translateY(-2px);
-        }
+        .gold-button:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
 
         /* ҮНДСЭН ЮТҮБ ХЭСЭГ */
         #mainContent { display: none; width: 100%; height: 100vh; position: relative; background: #000; }
         .video-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         #player { width: 100%; height: 100%; object-fit: contain; }
 
-        /* 3. ТӨГСГӨЛИЙН КАРТ (MIDNIGHT GOLD MODAL) */
+        /* 3. ТӨГСГӨЛИЙН КАРТ */
         #inviteCard {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; flex-direction: column; justify-content: center; align-items: center;
-            background: rgba(0,0,0,0.95); z-index: 4000; backdrop-filter: blur(10px);
-            animation: cardFadeIn 1.2s ease;
+            background: rgba(0,0,0,0.92); z-index: 4000; backdrop-filter: blur(10px);
+            animation: cardFadeIn 1s ease;
         }
 
         @keyframes cardFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .table-modal {
-            background: #0a0a0a; padding: 40px 30px; text-align: center;
-            width: 80%; max-width: 340px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
-            border: 1px solid #bf953f; position: relative;
+        .end-modal {
+            background: transparent; padding: 40px 30px; text-align: center;
+            width: 85%; max-width: 320px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
         }
-        /* Төгсгөлийн картны булангийн хээ */
-        .table-modal::before, .table-modal::after { content: ''; position: absolute; width: 20px; height: 20px; border: 1px solid var(--gold-light); }
-        .table-modal::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
-        .table-modal::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
-        .modal-inner-border { border: 1px solid #333; padding: 35px 20px; }
-
-        .card-title { font-family: 'Cinzel'; font-size: 0.85rem; color: var(--gold-static); letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
-        .info-row { font-size: 0.9rem; color: #fff; margin: 18px 0; font-weight: 300; line-height: 1.7; opacity: 0.9; }
-        .info-row b { color: var(--gold-light); display: block; margin-bottom: 7px; letter-spacing: 1px; font-weight: 600;}
-
-        .replay-btn {
-            background: transparent; color: var(--gold-static); padding: 12px 25px; border: 1px solid var(--gold-static);
-            cursor: pointer; letter-spacing: 2px; font-size: 0.75rem; font-weight: 700;
-            text-transform: uppercase; transition: 0.3s; width: 100%; margin-top: 25px;
+        .end-modal::before {
+            content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.05); pointer-events: none;
         }
-        .replay-btn:hover { background: var(--gold-static); color: #000; }
 
-        #closeBtn { background: transparent; color: #777; border: none; cursor: pointer; font-size: 0.7rem; margin-top: 18px; text-decoration: underline; letter-spacing: 1px;}
-        #closeBtn:hover { color: #fff; }
+        .card-title { font-family: 'Cinzel', serif; font-size: 0.8rem; color: rgba(255,255,255,0.6); letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
+        .main-event { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 2px; line-height: 1.5; margin-bottom: 25px; }
+        .info-row { font-size: 0.85rem; color: rgba(255,255,255,0.8); margin: 15px 0; font-weight: 300; line-height: 1.6; letter-spacing: 1px;}
+        .info-row span { color: var(--gold); display: block; margin-top: 5px; font-weight: 500; letter-spacing: 2px; }
 
-        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.4; }
+        .btn-group { margin-top: 35px; display: flex; flex-direction: column; gap: 12px; }
+
+        .btn-outline {
+            background: transparent; color: var(--gold); padding: 12px; border: 1px solid var(--gold);
+            cursor: pointer; letter-spacing: 2px; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s;
+        }
+        .btn-outline:hover { background: var(--gold); color: #000; }
+
+        .btn-text {
+            background: transparent; color: rgba(255,255,255,0.5); border: none; padding: 10px;
+            cursor: pointer; letter-spacing: 2px; font-size: 0.65rem; text-transform: uppercase; transition: 0.3s; text-decoration: underline; text-underline-offset: 4px;
+        }
+        .btn-text:hover { color: #fff; }
+
+        /* 4. ХАНДИВЫН ХЭСЭГ (ДОТООД MODAL) */
+        #donateSection {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 5, 0.98);
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10; opacity: 0; transition: opacity 0.4s ease;
+        }
+
+        .donate-content { text-align: left; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .donate-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1rem; text-align: center; letter-spacing: 3px; margin-bottom: 30px; text-transform: uppercase; }
+        
+        .bank-row { margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        .bank-label { font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .bank-value { font-size: 0.95rem; color: #fff; font-weight: 400; letter-spacing: 1px; }
+        .bank-value.gold-text { color: var(--gold); }
+
+        .footer-text { font-size: 0.55rem; margin-top: 40px; color: rgba(255,255,255,0.3); letter-spacing: 3px; font-family: 'Cinzel', serif; text-transform: uppercase; }
+
+        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
     </style>
 </head>
 <body>
@@ -157,16 +159,11 @@
 
     <div id="splash">
         <div class="content-wrapper">
-            <div class="corner-ornament-tr"></div>
-            <div class="corner-ornament-bl"></div>
-
-            <div class="top-label">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР</div>
-            
+            <div class="top-label">Сэлэнгэ-Үүрийн Шүүдэр</div>
             <h1 class="title">20 ЖИЛ</h1>
-            
             <div class="divider"></div>
-            <div class="date-time">ОЙН БАЯРЫН УРИЛГА</div>
-            <button class="gold-button" onclick="startInvitation()">ТҮҮХЭН ЗАМНАЛ</button>
+            <div class="date-time">Ойн баярын урилга</div>
+            <button class="gold-button" onclick="startInvitation()">Түүхэн замнал</button>
         </div>
     </div>
 
@@ -179,25 +176,51 @@
     </div>
 
     <div id="inviteCard">
-        <div class="table-modal">
-            <div class="modal-inner-border">
+        <div class="end-modal">
+            
+            <div id="mainEndContent">
                 <div class="card-title">Эрхэм хүндэт таныг</div>
-                
-                <div class="info-row">
-                    <b>20 Жилийн Ойн Баярт</b>
-                </div>
+                <div class="main-event">20 ЖИЛИЙН ОЙН БАЯРТ<br>УРЬЖ БАЙНА</div>
 
                 <div class="info-row">
-                    <b>Урьж байна</b>
-                    Сэлэнгэ аймаг, Сүхбаатар хот <br>
-                    2026 оны 6-р сарын 21 <br> 11:00 Цагт
+                    Сэлэнгэ аймаг, Сүхбаатар хот
+                    <span>2026.06.21 | 11:00 ЦАГТ</span>
                 </div>
 
-                <button class="replay-btn" onclick="location.reload()">Дахин үзэх</button>
-                <button id="closeBtn" onclick="closeApp()">ХААХ</button>
+                <div class="btn-group">
+                    <button class="btn-outline" onclick="openDonate()">Хандив өргөхийг хүсвэл</button>
+                    <button class="btn-text" onclick="location.reload()">Дахин үзэх</button>
+                    <button class="btn-text" style="text-decoration:none; color: rgba(255,255,255,0.3);" onclick="closeApp()">ХААХ</button>
+                </div>
             </div>
+
+            <div id="donateSection">
+                <div class="donate-content">
+                    <div class="donate-title">Банкны мэдээлэл</div>
+                    
+                    <div class="bank-row">
+                        <div class="bank-label">Банкны нэр</div>
+                        <div class="bank-value">Хаан Банк</div> </div>
+                    
+                    <div class="bank-row">
+                        <div class="bank-label">Дансны дугаар</div>
+                        <div class="bank-value gold-text">0000 0000 0000</div> </div>
+                    
+                    <div class="bank-row">
+                        <div class="bank-label">Дансны нэр</div>
+                        <div class="bank-value">Сэлэнгэ-Үүрийн Шүүдэр</div> </div>
+                    
+                    <div class="bank-row">
+                        <div class="bank-label">Гүйлгээний утга</div>
+                        <div class="bank-value" style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">20 жил - Таны нэр, утасны дугаар</div>
+                    </div>
+
+                    <button class="btn-outline" style="width: 100%; margin-top: 15px;" onclick="closeDonate()">Буцах</button>
+                </div>
+            </div>
+
         </div>
-        <p style="font-size: 0.6rem; margin-top: 40px; opacity: 0.5; letter-spacing: 3px; font-family: 'Cinzel', serif;">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2006-2026</p>
+        <div class="footer-text">Сэлэнгэ-Үүрийн Шүүдэр | 2006-2026</div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -207,6 +230,8 @@
         let checkTimer;
         const bgMusic = document.getElementById('bgMusic');
         const inviteCard = document.getElementById('inviteCard');
+        const donateSection = document.getElementById('donateSection');
+        const mainEndContent = document.getElementById('mainEndContent');
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -232,7 +257,6 @@
             setTimeout(() => {
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
-                // Видео тоглуулж эхлэхээс өмнө бэлэн эсэхийг шалгах
                 if (player && player.playVideo) {
                     player.playVideo();
                 }
@@ -252,7 +276,6 @@
             checkTimer = setInterval(() => {
                 let duration = player.getDuration();
                 let currentTime = player.getCurrentTime();
-                // 5 секунд дутуу байхад картыг харуулна
                 if (duration > 0 && (duration - currentTime <= 5)) {
                     showFinalCard();
                     clearInterval(checkTimer);
@@ -268,10 +291,21 @@
             bgMusic.play();
         }
 
+        // Хандив нээх, хаах
+        function openDonate() {
+            donateSection.style.display = 'flex';
+            setTimeout(() => { donateSection.style.opacity = '1'; }, 50);
+            mainEndContent.style.opacity = '0'; // Үндсэн бичгийг бүдэгрүүлэх
+        }
+
+        function closeDonate() {
+            donateSection.style.opacity = '0';
+            mainEndContent.style.opacity = '1';
+            setTimeout(() => { donateSection.style.display = 'none'; }, 400);
+        }
+
         function closeApp() {
-            // "Баярлалаа" гэсэн үг гаргахгүйгээр шууд хаах
             document.body.innerHTML = ''; 
-            // Хэрэв вэб хөтөч зөвшөөрвөл цонхыг бүрэн хаахыг оролдоно
             window.close(); 
         }
 
@@ -285,14 +319,14 @@
             constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * canvas.width; this.y = -10;
-                this.size = Math.random() * 1.8 + 0.5;
-                this.speed = Math.random() * 0.5 + 0.2;
-                this.opacity = Math.random() * 0.5;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speed = Math.random() * 0.4 + 0.2;
+                this.opacity = Math.random() * 0.4;
             }
             update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
             draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-        for (let i = 0; i < 70; i++) particles.push(new Snowflake());
+        for (let i = 0; i < 50; i++) particles.push(new Snowflake());
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
     </script>
