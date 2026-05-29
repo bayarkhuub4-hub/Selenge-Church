@@ -1,133 +1,240 @@
-<div id="bgMain"><div id="aura"></div><div class="dot-pattern"></div></div>
-<canvas id="canvas-snow"></canvas>
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>20 Жилийн Ойн Урилга - Үүрийн Шүүдэр</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <style>
+        :root {
+            --gold: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-static: #d4af37;
+        }
 
-<!-- 1. SPLASH SCREEN -->
-<div id="splash">
-    <div class="premium-frame">
-        <div class="label-small">Эрхэм хүндэт таныг</div>
-        <h1 class="church-title gold-text">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР</h1>
-        <div class="divider"></div>
-        <h2 class="anniversary-title gold-text">20 ЖИЛ<br>БАЯРТ</h2>
-         <div class="invite-label">ОЙН БАЯРТ</div>
-        <div class="label-small">Урьж байна</div>
-        <button class="gold-button" style="margin-top: 50px;" onclick="startInvitation()">ТҮҮХЭН ЗАМНАЛ</button>
-    </div>
-</div>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; overflow: hidden; color: white; }
 
-<!-- 2. VIDEO SECTION -->
-<div id="mainContent">
-    <div class="video-container">
-        <div id="player"></div>
-        <div class="video-blocker"></div>
-    </div>
-</div>
+        /* 1. АРЫН ФОН - ЦЭГЦТЭЙ ЦЭГЭН ХЭЭ */
+        #bgMain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
+        .dot-pattern { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 25px 25px; opacity: 0.5; }
 
-<!-- 3. INVITATION CARD -->
-<div id="inviteCard">
-    <div class="modal-card">
-        <div class="inner-border">
-            <h2 style="font-family:'Cinzel'; color:#d4af37; letter-spacing: 3px;">БАЯРЫН УРИЛГА</h2>
-            
-            <div class="info-box">
-                2026 оны 6-р сарын 21 | 11:00 Цагт
-            </div>
+        /* 2. ЭХЛЭХ НҮҮР (INITIAL OVERLAY) */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 5000; text-align: center; transition: 0.8s ease;
+        }
 
-            <div class="info-box">
-                Сэлэнгэ аймаг, Сүхбаатар хот, <br> Чуулганы баярын танхимд
-            </div>
+        .content-wrapper {
+            display: flex; flex-direction: column; align-items: center;
+            animation: fadeInUp 1.5s ease-out;
+            padding: 20px; width: 100%; box-sizing: border-box;
+        }
 
-            <button class="btn-small" id="donateBtn" onclick="toggleDonation()">🎁 ХАНДИВ ӨРГӨХИЙГ ХҮСВЭЛ</button>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-            <div id="donationSection">
-                БАНК: <span>ГОЛОМТ БАНК</span><br>
-                ДАНС: <span>8115100000</span><br>
-                НЭР: <span>Үүрийн Шүүдрийн Үе</span><br>
-                УТГА: <span>Өөрийн нэр, Сэлэнгэ</span>
-            </div>
+        .title {
+            font-family: 'Cinzel', serif; font-size: 3.2rem; margin: 0; letter-spacing: 6px; font-weight: 700;
+            background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
 
-            <button class="btn-small" style="border:none; opacity:0.5;" onclick="location.reload()">Дахин үзэх</button>
+        .subtitle { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; margin: 15px 0; color: #fff; opacity: 0.8; text-transform: uppercase; }
+
+        .divider { width: 120px; height: 1px; background: var(--gold); margin: 20px 0; position: relative; }
+        .divider::after { content: '✦'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #fcf6ba; font-size: 10px; }
+
+        .date-time { font-size: 1rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 25px; color: #fcf6ba; }
+
+        .gold-button {
+            padding: 16px 45px; font-size: 0.85rem; background: var(--gold); color: #000;
+            border: none; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            transition: 0.4s; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+        }
+
+        /* ҮНДСЭН ЮТҮБ ХЭСЭГ */
+        #mainContent { display: none; width: 100%; height: 100vh; position: relative; background: #000; }
+        .video-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        /* Zoom-ийг болиулж, дүрсийг тааруулав */
+        #player { width: 100%; height: 100%; object-fit: contain; }
+
+        /* 3. ТӨГСГӨЛИЙН КАРТ (MIDNIGHT GOLD MODAL) */
+        #inviteCard {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.92); z-index: 4000; backdrop-filter: blur(10px);
+            animation: cardFadeIn 1.2s ease;
+        }
+
+        @keyframes cardFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .table-modal {
+            background: #0a0a0a; padding: 40px 30px; text-align: center;
+            width: 80%; max-width: 320px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+            border: 1px solid #bf953f; position: relative;
+        }
+
+        .modal-inner-border { border: 1px solid #444; padding: 30px 20px; }
+
+        .card-title { font-family: 'Cinzel'; font-size: 0.8rem; color: #d4af37; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
+        .info-row { font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; line-height: 1.6; opacity: 0.9; }
+        .info-row b { color: #d4af37; display: block; margin-bottom: 5px; letter-spacing: 1px; }
+
+        .replay-btn {
+            background: transparent; color: #d4af37; padding: 10px 25px; border: 1px solid #d4af37;
+            cursor: pointer; letter-spacing: 1px; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; transition: 0.3s; width: 100%; margin-top: 20px;
+        }
+
+        #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; margin-top: 15px; text-decoration: underline; }
+
+        #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
+    </style>
+</head>
+<body>
+
+    <div id="bgMain"><div class="dot-pattern"></div></div>
+    <canvas id="canvas-snow"></canvas>
+
+    <!-- 1. ШИНЭ SPLASH SCREEN -->
+    <div id="splash">
+        <div class="content-wrapper">
+            <h1 class="title">20 ЖИЛИЙН ОЙ</h1>
+            <div class="subtitle">Сэлэнгэ-Үүрийн Шүүдэр</div>
+            <div class="divider"></div>
+            <div class="date-time">2025.10.25 | 11:00 ЦАГ</div>
+            <button class="gold-button" onclick="startInvitation()">Урилга нээх ✉️</button>
         </div>
     </div>
-    <p style="font-size: 0.5rem; margin-top: 30px; opacity: 0.3; letter-spacing: 4px;">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2006-2026</p>
-</div>
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
-<script src="
+    <!-- Арын ая -->
+    <audio id="bgMusic" src="music.mp3" loop></audio>
 
-<script>
-    let player;
-    let checkTimer;
-    const bgMusic = document.getElementById('bgMusic');
-    const inviteCard = document.getElementById('inviteCard');
+    <!-- 2. ВИДЕО ХЭСЭГ -->
+    <div id="mainContent">
+        <div class="video-container">
+            <div id="player"></div>
+        </div>
+    </div>
 
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '100%',
-            width: '100%',
-            videoId: 'Um9Djsv5nK4', 
-            playerVars: {
-                'autoplay': 0,
-                'controls': 0,
-                'rel': 0,
-                'modestbranding': 1,
-                'playsinline': 1,
-                'vq': 'hd720'
-            },
-            events: { 'onStateChange': onPlayerStateChange }
-        });
-    }
+    <!-- 3. ШИНЭ ТӨГСГӨЛИЙН КАРТ -->
+    <div id="inviteCard">
+        <div class="table-modal">
+            <div class="modal-inner-border">
+                <div class="card-title">Баярын урилга</div>
+                
+                <div class="info-row">
+                    <b>ХЭЗЭЭ:</b>
+                    2025 оны 10-р сарын 25 <br> 11:00 Цагт
+                </div>
 
-    function startInvitation() {
-        document.getElementById('splash').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('splash').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'flex';
-            player.playVideo();
-        }, 800);
-    }
+                <div class="info-row">
+                    <b>ХААНА:</b>
+                    Сэлэнгэ аймаг, Сүхбаатар хот, <br> Чуулганы баярын танхимд
+                </div>
 
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING) {
-            bgMusic.pause();
-            startCheckingTime();
+                <button class="replay-btn" onclick="location.reload()">Урилга дахин үзэх</button>
+                <button id="closeBtn" onclick="closeApp()">ХААХ</button>
+            </div>
+        </div>
+        <p style="font-size: 0.55rem; margin-top: 30px; opacity: 0.4; letter-spacing: 2px;">ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2005-2025</p>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        let player;
+        let checkTimer;
+        const bgMusic = document.getElementById('bgMusic');
+        const inviteCard = document.getElementById('inviteCard');
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: 'Um9Djsv5nK4', 
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'rel': 0,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'vq': 'hd720'
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
         }
-    }
 
-    function startCheckingTime() {
-        checkTimer = setInterval(() => {
-            let duration = player.getDuration();
-            let currentTime = player.getCurrentTime();
-            if (duration > 0 && (duration - currentTime <= 5)) {
-                showFinalCard();
-                clearInterval(checkTimer);
+        function startInvitation() {
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                player.playVideo();
+            }, 800);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                bgMusic.pause();
+                startCheckingTime();
+            } else {
+                stopCheckingTime();
             }
-        }, 500);
-    }
+        }
 
-    function showFinalCard() {
-        inviteCard.style.display = 'flex';
-        bgMusic.volume = 0.4;
-        bgMusic.play();
-    }
+        function startCheckingTime() {
+            checkTimer = setInterval(() => {
+                let duration = player.getDuration();
+                let currentTime = player.getCurrentTime();
+                // 5 секунд дутуу байхад картыг харуулна
+                if (duration > 0 && (duration - currentTime <= 5)) {
+                    showFinalCard();
+                    clearInterval(checkTimer);
+                }
+            }, 500);
+        }
 
-    function toggleDonation() {
-        const section = document.getElementById('donationSection');
-        section.style.display = (section.style.display === 'none' || section.style.display === '') ? 'block' : 'none';
-    }
+        function stopCheckingTime() { clearInterval(checkTimer); }
 
-    // Snow Animation
-    const canvas = document.getElementById('canvas-snow');
-    const ctx = canvas.getContext('2d');
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    let particles = [];
-    class Snowflake {
-        constructor() { this.reset(); }
-        reset() { this.x = Math.random() * canvas.width; this.y = -10; this.size = Math.random() * 1.5 + 0.5; this.speed = Math.random() * 0.4 + 0.2; this.opacity = Math.random() * 0.4; }
-        update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
-        draw() { ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-    }
-    for (let i = 0; i < 40; i++) particles.push(new Snowflake());
-    function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-    animate();
-</script>
+        function showFinalCard() {
+            inviteCard.style.display = 'flex';
+            bgMusic.volume = 0.4;
+            bgMusic.play();
+        }
+
+        function closeApp() {
+            document.body.innerHTML = `<div style="background:#000; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Cinzel'; color:#d4af37;">БАЯРЛАЛАА</div>`;
+        }
+
+        // Snow Animation
+        const canvas = document.getElementById('canvas-snow');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+        class Snowflake {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width; this.y = -10;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speed = Math.random() * 0.4 + 0.2;
+                this.opacity = Math.random() * 0.4;
+            }
+            update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
+            draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        for (let i = 0; i < 60; i++) particles.push(new Snowflake());
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
+    </script>
+</body>
+</html>
