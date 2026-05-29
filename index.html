@@ -67,22 +67,35 @@
             transition: 0.4s; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* 3. ВИДЕО ХЭСЭГ (Blur дэвсгэр болон байрлал) */
+        /* 3. ВИДЕО ХЭСЭГ (Зөөлөн шаргал, хөдөлгөөнт туяат фон) */
         #mainContent { 
-            display: none; width: 100%; height: 100vh; position: relative; background: #000; 
-            /* Видеоны зургийг дэвсгэр болгох */
-            background: url('https://img.youtube.com/vi/Um9Djsv5nK4/hqdefault.jpg') center center / cover no-repeat;
+            display: none; width: 100%; height: 100vh; position: relative;
+            background: linear-gradient(135deg, #110a02, #2a1b05, #0a0601, #301f05);
+            background-size: 400% 400%;
+            animation: goldBgFlow 15s ease infinite;
+            overflow: hidden;
         }
-        /* Blur буюу бүдгэрүүлэх эффект */
+        
+        /* Бүдэг гэрлүүд (Дээд болон доод хэсэгт хөдөлнө) */
+        #mainContent::before, #mainContent::after {
+            content: ''; position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.35; pointer-events: none;
+        }
         #mainContent::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            background: rgba(0, 0, 0, 0.65); z-index: 1;
+            width: 350px; height: 350px; background: #d4af37; top: -50px; left: -100px;
+            animation: floatLight1 12s infinite alternate ease-in-out;
         }
+        #mainContent::after {
+            width: 450px; height: 450px; background: #bf953f; bottom: -100px; right: -50px;
+            animation: floatLight2 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes goldBgFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes floatLight1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 80px) scale(1.1); } }
+        @keyframes floatLight2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-80px, -60px) scale(1.2); } }
+
         .video-container { 
             width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; 
             position: relative; z-index: 2;
-            /* Видеог бага зэрэг дээш нь өргөх */
             transform: translateY(-8%);
         }
         #player { width: 100%; height: 100%; object-fit: contain; }
@@ -103,42 +116,51 @@
             border: 1px solid #bf953f; position: relative;
         }
 
-        .modal-inner-border { border: 1px solid #444; padding: 25px 15px 15px 15px; }
+        .modal-inner-border { border: 1px solid #444; padding: 25px 15px 15px 15px; position: relative; }
 
         .card-title { font-family: 'Cinzel'; font-size: 0.8rem; color: #d4af37; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
         .info-row { font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; line-height: 1.6; opacity: 0.9; }
         .info-row b { color: #d4af37; display: block; margin-bottom: 5px; letter-spacing: 1px; }
 
-        /* Товчлууруудын хэсэг */
-        .action-buttons {
-            display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px;
-        }
+        /* Байршил, хугацааны хэсгийг тусгаарлаж зай авах */
+        .location-box { margin-top: 30px; }
+
+        .action-buttons { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; }
 
         .replay-btn {
             background: transparent; color: #d4af37; padding: 10px 35px; border: 1px solid #d4af37;
             cursor: pointer; letter-spacing: 1px; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; transition: 0.3s; width: auto; /* Богиносгосон */
+            text-transform: uppercase; transition: 0.3s; width: auto; 
         }
         .replay-btn:hover { background: #d4af37; color: #000; }
 
         #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; text-decoration: underline; }
         #closeBtn:hover { color: #fff; }
 
-        /* Хандив өргөх товчлуурыг тусгаарласан хэсэг */
         .donate-section {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            width: 100%;
+            margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.2); width: 100%;
         }
 
         .donate-btn {
-            background: transparent; color: #fcf6ba; padding: 8px 25px;
-            border: 1px solid rgba(252, 246, 186, 0.4);
-            cursor: pointer; letter-spacing: 1px; font-size: 0.7rem; font-weight: 400;
-            text-transform: uppercase; transition: 0.3s; display: inline-block; opacity: 0.8;
+            background: transparent; color: #fcf6ba; padding: 8px 25px; border: 1px solid rgba(252, 246, 186, 0.4);
+            cursor: pointer; letter-spacing: 1px; font-size: 0.7rem; font-weight: 400; text-transform: uppercase; transition: 0.3s; display: inline-block; opacity: 0.8;
         }
         .donate-btn:hover { opacity: 1; background: rgba(252, 246, 186, 0.1); }
+
+        /* ХАНДИВЫН МЭДЭЭЛЭЛ (MODAL ДОТОРХ MODAL) */
+        #donateInfo {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0a0a; display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10; box-sizing: border-box;
+        }
+        
+        .donate-inner-border {
+            border: 1px solid #444; width: calc(100% - 40px); height: calc(100% - 40px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .bank-info { font-size: 0.85rem; text-align: left; line-height: 1.8; color: #fff; margin-bottom: 20px; }
+        .bank-info b { color: #fcf6ba; }
 
         #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
     </style>
@@ -162,7 +184,7 @@
     <!-- Арын ая -->
     <audio id="bgMusic" src="music.mp3" loop></audio>
 
-    <!-- 2. ВИДЕО ХЭСЭГ (Blur дэвсгэртэй) -->
+    <!-- 2. ВИДЕО ХЭСЭГ (Хөдөлгөөнт туяатай арын дэвсгэр) -->
     <div id="mainContent">
         <div class="video-container">
             <div id="player"></div>
@@ -172,6 +194,7 @@
     <!-- 3. ТӨГСГӨЛИЙН КАРТ -->
     <div id="inviteCard">
         <div class="table-modal">
+            
             <div class="modal-inner-border">
                 <div class="card-title">Эрхэм хүндэт таныг</div>
                 
@@ -181,6 +204,10 @@
 
                 <div class="info-row">
                     <b>Урьж байна</b>
+                </div>
+
+                <!-- Зай авсан байршлын хэсэг -->
+                <div class="info-row location-box">
                     Сэлэнгэ аймаг, Сүхбаатар хот <br>
                     2026 оны 6-р сарын 21 <br> 11:00 Цагт
                 </div>
@@ -190,11 +217,26 @@
                     <button id="closeBtn" onclick="closeApp()">ХААХ</button>
                 </div>
 
-                <!-- Хандив өргөх хэсгийг хамгийн доор тусад нь салгав -->
+                <!-- Хандив өргөх товчлуур -->
                 <div class="donate-section">
-                    <button class="donate-btn">Хандив өргөх</button>
+                    <button class="donate-btn" onclick="showDonate()">Хандив өргөх</button>
                 </div>
             </div>
+
+            <!-- ХАНДИВЫН МЭДЭЭЛЛИЙН ХЭСЭГ (Дарсны дараа гарч ирнэ) -->
+            <div id="donateInfo">
+                <div class="donate-inner-border">
+                    <div class="card-title">Хандивын данс</div>
+                    <div class="bank-info">
+                        Банк: <b>ХААН БАНК</b><br>
+                        Данс: <b>5000000000</b><br> <!-- Өөрийн дансаа бичнэ -->
+                        Хүлээн авагч: <b>Б. Бат</b><br> <!-- Хүлээн авагчийн нэр -->
+                        Гүйлгээний утга: <b>Ойн хандив</b>
+                    </div>
+                    <button class="replay-btn" style="width: 100%; margin-top: 10px;" onclick="hideDonate()">Буцах</button>
+                </div>
+            </div>
+
         </div>
         <p style="font-size: 0.55rem; margin-top: 30px; opacity: 0.4; letter-spacing: 2px;">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2006-2026</p>
     </div>
@@ -206,6 +248,7 @@
         let checkTimer;
         const bgMusic = document.getElementById('bgMusic');
         const inviteCard = document.getElementById('inviteCard');
+        const donateInfo = document.getElementById('donateInfo');
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -267,6 +310,14 @@
 
         function closeApp() {
             document.body.innerHTML = `<div style="background:#000; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Cinzel'; color:#d4af37;">БАЯРЛАЛАА</div>`;
+        }
+
+        // Хандивын мэдээлэл харуулах, нуух функц
+        function showDonate() {
+            donateInfo.style.display = 'flex';
+        }
+        function hideDonate() {
+            donateInfo.style.display = 'none';
         }
 
         // Snow Animation
