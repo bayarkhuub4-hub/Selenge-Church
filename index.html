@@ -6,7 +6,6 @@
     <title>20 Жилийн Ойн Урилга - Үүрийн Шүүдэр</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
         :root {
@@ -16,11 +15,11 @@
 
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; overflow: hidden; color: white; }
 
-        /* 1. АРЫН ФОН - ЦЭГЦТЭЙ ЦЭГЭН ХЭЭ */
+        /* 1. АРЫН ФОН */
         #bgMain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
-        .dot-pattern { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px); background-size: 25px 25px; opacity: 0.5; }
+        .dot-pattern { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 25px 25px; opacity: 0.5; }
 
-        /* 2. ЭХЛЭХ НҮҮР (INITIAL OVERLAY) - АНХНЫ ХЭЛБЭРТ БУЦААВ */
+        /* 2. ЭХЛЭХ НҮҮР (SPLASH) */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
@@ -31,7 +30,36 @@
         .content-wrapper {
             display: flex; flex-direction: column; align-items: center;
             animation: fadeInUp 1.5s ease-out;
-            padding: 20px; width: 100%; box-sizing: border-box;
+            padding: 40px; 
+            box-sizing: border-box;
+            position: relative;
+            /* Нарийн хүрээ */
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden; /* Гэрлийн эффектийг дотор нь барих */
+        }
+
+        /* Туяа тусах хөдөлгөөн */
+        .content-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent, 
+                rgba(252, 246, 186, 0.1), 
+                transparent 30%
+            );
+            animation: rotateGlow 6s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeInUp {
@@ -45,30 +73,25 @@
             filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
         }
 
-        /* "Сэлэнгэ-Үүрийн Шүүдэр" текстийг дээр нь гаргав */
-        .subtitle { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; margin: 0 0 15px 0; color: #fff; opacity: 0.8; text-transform: uppercase; }
+        .subtitle { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; margin: 15px 0; color: #fff; opacity: 0.8; text-transform: uppercase; }
 
         .divider { width: 120px; height: 1px; background: var(--gold); margin: 20px 0; position: relative; }
         .divider::after { content: '✦'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #fcf6ba; font-size: 10px; }
 
-        .date-time { font-size: 1rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 25px; color: #fcf6ba; text-transform: uppercase; }
+        .date-time { font-size: 1rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 25px; color: #fcf6ba; }
 
         .gold-button {
             padding: 16px 45px; font-size: 0.85rem; background: var(--gold); color: #000;
             border: none; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
             transition: 0.4s; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
         }
-        .gold-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 30px rgba(212, 175, 55, 0.6);
-        }
 
-        /* ҮНДСЭН ЮТҮБ ХЭСЭГ */
+        /* ВИДЕО ХЭСЭГ */
         #mainContent { display: none; width: 100%; height: 100vh; position: relative; background: #000; }
         .video-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         #player { width: 100%; height: 100%; object-fit: contain; }
 
-        /* 3. ТӨГСГӨЛИЙН КАРТ (САЙЖРУУЛСАН ХЭВЭЭР) */
+        /* 3. ТӨГСГӨЛИЙН КАРТ */
         #inviteCard {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; flex-direction: column; justify-content: center; align-items: center;
@@ -78,43 +101,45 @@
 
         @keyframes cardFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .end-modal {
+        .table-modal {
             background: #0a0a0a; padding: 40px 30px; text-align: center;
             width: 80%; max-width: 320px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
             border: 1px solid #bf953f; position: relative;
         }
 
-        .modal-inner-border { border: 1px solid #333; padding: 30px 20px; position: relative; }
+        .modal-inner-border { border: 1px solid #444; padding: 30px 20px; }
 
         .card-title { font-family: 'Cinzel'; font-size: 0.8rem; color: #d4af37; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
         .info-row { font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; line-height: 1.6; opacity: 0.9; }
         .info-row b { color: #d4af37; display: block; margin-bottom: 5px; letter-spacing: 1px; }
 
-        /* ТӨГСГӨЛИЙН ТОВЧЛУУРУУД */
-        .btn-group { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        /* Жижигрүүлсэн Хандив товчлуур */
+        .donate-btn {
+            background: transparent;
+            color: #fcf6ba;
+            padding: 8px 20px;
+            border: 1px solid rgba(252, 246, 186, 0.5);
+            cursor: pointer;
+            letter-spacing: 1px;
+            font-size: 0.7rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        .donate-btn:hover {
+            opacity: 1;
+            background: rgba(252, 246, 186, 0.1);
+        }
 
-        .modal-btn {
+        .replay-btn {
             background: transparent; color: #d4af37; padding: 10px 25px; border: 1px solid #d4af37;
             cursor: pointer; letter-spacing: 1px; font-size: 0.75rem; font-weight: 600;
             text-transform: uppercase; transition: 0.3s; width: 100%;
         }
-        .modal-btn:hover { background: #d4af37; color: #000; }
 
-        .donate-btn { color: #fff; border-color: #fff; }
-        .donate-btn:hover { background: #fff; color: #000; }
-
-        #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; margin-top: 15px; text-decoration: underline; letter-spacing: 1px; }
-        #closeBtn:hover { color: #fff; }
-
-        /* ХАНДИВЫН МЭДЭЭЛЭЛ */
-        #donateInfo {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0a0a0a; display: none; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 5; padding: 20px; box-sizing: border-box;
-            border: 1px solid #fff;
-        }
-        .bank-info { font-size: 0.85rem; text-align: left; line-height: 1.8; color: #fff; margin-bottom: 20px; }
-        .bank-info b { color: #fcf6ba; }
+        #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; margin-top: 15px; text-decoration: underline; }
 
         #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
     </style>
@@ -124,12 +149,11 @@
     <div id="bgMain"><div class="dot-pattern"></div></div>
     <canvas id="canvas-snow"></canvas>
 
-    <!-- 1. SPLASH SCREEN (БУЦААСАН ЗАГВАР) -->
+    <!-- 1. SPLASH SCREEN -->
     <div id="splash">
         <div class="content-wrapper">
-            <!-- Текст хамгийн дээр -->
-            <div class="subtitle">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР</div>
             <h1 class="title">20 ЖИЛ</h1>
+            <div class="subtitle">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР</div>
             <div class="divider"></div>
             <div class="date-time">ОЙН БАЯРЫН УРИЛГА</div>
             <button class="gold-button" onclick="startInvitation()">ТҮҮХЭН ЗАМНАЛ</button>
@@ -146,9 +170,9 @@
         </div>
     </div>
 
-    <!-- 3. ТӨГСГӨЛИЙН КАРТ (САЙЖРУУЛСАН ХЭВЭЭР) -->
+    <!-- 3. ТӨГСГӨЛИЙН КАРТ -->
     <div id="inviteCard">
-        <div class="end-modal">
+        <div class="table-modal">
             <div class="modal-inner-border">
                 <div class="card-title">Эрхэм хүндэт таныг</div>
                 
@@ -162,23 +186,11 @@
                     2026 оны 6-р сарын 21 <br> 11:00 Цагт
                 </div>
 
-                <div class="btn-group">
-                    <button class="modal-btn donate-btn" onclick="showDonate()">Хандив өргөх</button>
-                    <button class="modal-btn" onclick="location.reload()">Дахин үзэх</button>
-                </div>
-                <button id="closeBtn" onclick="closeApp()">ХААХ</button>
+                <!-- Шинэчлэгдсэн Хандив товчлуур -->
+                <button class="donate-btn">Хандив өргөх</button>
 
-                <!-- Хандивын мэдээлэл (Нууцлагдмал) -->
-                <div id="donateInfo">
-                    <div class="card-title">Хандивын данс</div>
-                    <div class="bank-info">
-                        Банк: <b>ХААН БАНК</b><br>
-                        Данс: <b>5000000000</b><br>
-                        Хүлээн авагч: <b>Б. Бат</b><br>
-                        Гүйлгээний утга: <b>Ойн хандив</b>
-                    </div>
-                    <button class="modal-btn" onclick="hideDonate()">Хаах</button>
-                </div>
+                <button class="replay-btn" onclick="location.reload()">Дахин үзэх</button>
+                <button id="closeBtn" onclick="closeApp()">ХААХ</button>
             </div>
         </div>
         <p style="font-size: 0.55rem; margin-top: 30px; opacity: 0.4; letter-spacing: 2px;">СЭЛЭНГЭ-ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2006-2026</p>
@@ -191,7 +203,6 @@
         let checkTimer;
         const bgMusic = document.getElementById('bgMusic');
         const inviteCard = document.getElementById('inviteCard');
-        const donateInfo = document.getElementById('donateInfo');
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -217,8 +228,7 @@
             setTimeout(() => {
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
-                // Видео тоглуулж эхлэхээс өмнө бэлэн эсэхийг шалгах
-                if (player && player.playVideo) {
+                if(player && player.playVideo) {
                     player.playVideo();
                 }
             }, 800);
@@ -237,7 +247,6 @@
             checkTimer = setInterval(() => {
                 let duration = player.getDuration();
                 let currentTime = player.getCurrentTime();
-                // 5 секунд дутуу байхад картыг харуулна
                 if (duration > 0 && (duration - currentTime <= 5)) {
                     showFinalCard();
                     clearInterval(checkTimer);
@@ -254,15 +263,8 @@
         }
 
         function closeApp() {
-            // "Баярлалаа" гэсэн үг гаргахгүйгээр шууд хаах
-            document.body.innerHTML = ''; 
-            // Хэрэв вэб хөтөч зөвшөөрвөл цонхыг бүрэн хаахыг оролдоно
-            window.close(); 
+            document.body.innerHTML = `<div style="background:#000; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Cinzel'; color:#d4af37;">БАЯРЛАЛАА</div>`;
         }
-
-        // Хандивын функцууд
-        function showDonate() { donateInfo.style.display = 'flex'; }
-        function hideDonate() { donateInfo.style.display = 'none'; }
 
         // Snow Animation
         const canvas = document.getElementById('canvas-snow');
