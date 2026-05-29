@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>20 ЖИЛ - Сэлэнгэ Үүрийн Шүүдэр</title>
+    <title>20 Жилийн Ойн Урилга - Үүрийн Шүүдэр</title>
     
+    <!-- Сошиал линк дээр харагдах зураг ба бичиг -->
+    <meta property="og:title" content="20 Жилийн Ойн Урилга">
+    <meta property="og:description" content="Сэлэнгэ-Үүрийн Шүүдэр чуулганы 20 жилийн ойн баярт урьж байна.">
+    <meta property="og:image" content="cover.jpg"> <!-- GitHub-т cover.jpg нэрээр зургаа хийгээрэй -->
+    <meta property="og:type" content="website">
+
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
@@ -16,83 +22,43 @@
 
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Montserrat', sans-serif; background: #000; overflow: hidden; color: white; }
 
-        /* 1. АРЫН ФОН - ЦЭГЦТЭЙ ЦЭГЭН ХЭЭ */
         #bgMain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
         .dot-pattern { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 25px 25px; opacity: 0.5; }
 
-        /* 2. ЭХЛЭХ НҮҮР (INITIAL OVERLAY) */
-        #splash {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 5000; text-align: center; transition: 0.8s ease;
-        }
-
-        .content-wrapper {
-            display: flex; flex-direction: column; align-items: center;
-            animation: fadeInUp 1.5s ease-out;
-            padding: 20px; width: 100%; box-sizing: border-box;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .title {
-            font-family: 'Cinzel', serif; font-size: 3.2rem; margin: 0; letter-spacing: 6px; font-weight: 700;
-            background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
-        }
-
+        /* SPLASH SCREEN */
+        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5000; text-align: center; transition: 0.8s ease; }
+        .title { font-family: 'Cinzel', serif; font-size: 3.2rem; margin: 0; letter-spacing: 6px; font-weight: 700; background: var(--gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
         .subtitle { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; margin: 15px 0; color: #fff; opacity: 0.8; text-transform: uppercase; }
-
         .divider { width: 120px; height: 1px; background: var(--gold); margin: 20px 0; position: relative; }
         .divider::after { content: '✦'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #fcf6ba; font-size: 10px; }
+        .gold-button { padding: 16px 45px; font-size: 0.85rem; background: var(--gold); color: #000; border: none; cursor: pointer; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
 
-        .date-time { font-size: 1rem; font-weight: 200; letter-spacing: 2px; margin-bottom: 25px; color: #fcf6ba; }
-
-        .gold-button {
-            padding: 16px 45px; font-size: 0.85rem; background: var(--gold); color: #000;
-            border: none; cursor: pointer; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
-            transition: 0.4s; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-        }
-
-        /* ҮНДСЭН ЮТҮБ ХЭСЭГ */
+        /* VIDEO CONTAINER - ДЭЭШЛҮҮЛСЭН */
         #mainContent { display: none; width: 100%; height: 100vh; position: relative; background: #000; }
-        .video-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        /* Zoom-ийг болиулж, дүрсийг тааруулав */
-        #player { width: 100%; height: 100%; object-fit: contain; }
-
-        /* 3. ТӨГСГӨЛИЙН КАРТ (MIDNIGHT GOLD MODAL) */
-        #inviteCard {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            background: rgba(0,0,0,0.92); z-index: 4000; backdrop-filter: blur(10px);
-            animation: cardFadeIn 1.2s ease;
+        .video-wrapper { 
+            position: absolute; top: 15%; /* Бичлэгийг дээшлүүлсэн */
+            width: 100%; height: 70%; 
         }
+        #player { width: 100%; height: 100%; }
+        /* Бичлэгийг пауз авахуулахгүй давхарга */
+        .video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: transparent; }
 
-        @keyframes cardFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* FINAL CARD */
+        #inviteCard { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.92); z-index: 4000; backdrop-filter: blur(10px); text-align: center; }
+        .table-modal { background: #0a0a0a; padding: 30px 20px; width: 85%; max-width: 320px; border: 1px solid #bf953f; border-radius: 5px; }
+        .modal-inner-border { border: 1px solid #444; padding: 20px; }
+        .info-row { font-size: 0.85rem; margin: 15px 0; font-weight: 300; line-height: 1.5; }
+        .info-row b { color: #d4af37; display: block; margin-bottom: 5px; }
 
-        .table-modal {
-            background: #0a0a0a; padding: 40px 30px; text-align: center;
-            width: 80%; max-width: 320px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
-            border: 1px solid #bf953f; position: relative;
-        }
+        /* DONATION SECTION */
+        #donationSection { display: none; margin-top: 20px; border-top: 1px dashed #555; padding-top: 20px; animation: fadeIn 0.5s ease; }
+        .bank-info { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; font-size: 0.8rem; text-align: left; line-height: 1.8; }
+        .bank-info span { color: #d4af37; font-weight: bold; }
 
-        .modal-inner-border { border: 1px solid #444; padding: 30px 20px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card-title { font-family: 'Cinzel'; font-size: 0.8rem; color: #d4af37; letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase; }
-        .info-row { font-size: 0.9rem; color: #fff; margin: 15px 0; font-weight: 300; line-height: 1.6; opacity: 0.9; }
-        .info-row b { color: #d4af37; display: block; margin-bottom: 5px; letter-spacing: 1px; }
-
-        .replay-btn {
-            background: transparent; color: #d4af37; padding: 10px 25px; border: 1px solid #d4af37;
-            cursor: pointer; letter-spacing: 1px; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; transition: 0.3s; width: 100%; margin-top: 20px;
-        }
-
-        #closeBtn { background: transparent; color: #888; border: none; cursor: pointer; font-size: 0.7rem; margin-top: 15px; text-decoration: underline; }
+        .btn-small { background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 10px 20px; cursor: pointer; font-size: 0.7rem; width: 100%; margin-top: 10px; font-weight: bold; }
+        .btn-small:hover { background: #d4af37; color: #00; }
 
         #canvas-snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; pointer-events: none; opacity: 0.3; }
     </style>
@@ -102,36 +68,33 @@
     <div id="bgMain"><div class="dot-pattern"></div></div>
     <canvas id="canvas-snow"></canvas>
 
-    <!-- 1. ШИНЭ SPLASH SCREEN -->
+    <!-- 1. Splash Screen -->
     <div id="splash">
         <div class="content-wrapper">
-            <h1 class="title">20 ЖИЛ</h1>
+            <h1 class="title">20 ЖИЛИЙН ОЙ</h1>
             <div class="subtitle">Сэлэнгэ-Үүрийн Шүүдэр</div>
             <div class="divider"></div>
-            <div class="date-time">2026.6.21 | 11:00 ЦАГ</div>
-            <button class="gold-button" onclick="startInvitation()">ТҮҮХЭН ЗАМНАЛ Үзэх ✉️</button>
+            <button class="gold-button" onclick="startInvitation()">Урилга нээх ✉️</button>
         </div>
     </div>
 
-    <!-- Арын ая -->
-    <audio id="bgMusic" src="music.mp3" loop></audio>
-
-    <!-- 2. ВИДЕО ХЭСЭГ -->
+    <!-- 2. Video Area -->
     <div id="mainContent">
-        <div class="video-container">
+        <div class="video-wrapper">
             <div id="player"></div>
+            <div class="video-overlay"></div> <!-- Пауз авахаас хамгаална -->
         </div>
     </div>
 
-    <!-- 3. ШИНЭ ТӨГСГӨЛИЙН КАРТ -->
+    <!-- 3. Final Card -->
     <div id="inviteCard">
         <div class="table-modal">
             <div class="modal-inner-border">
-                <div class="card-title">Баярын урилга</div>
+                <h2 style="font-family:'Cinzel'; font-size: 1rem; color:#d4af37; margin-bottom:15px;">БАЯРЫН УРИЛГА</h2>
                 
                 <div class="info-row">
                     <b>ХЭЗЭЭ:</b>
-                    2025 оны 10-р сарын 25 <br> 11:00 Цагт
+                    2025 оны 10-р сарын 25 | 11:00 Цагт
                 </div>
 
                 <div class="info-row">
@@ -139,13 +102,25 @@
                     Сэлэнгэ аймаг, Сүхбаатар хот, <br> Чуулганы баярын танхимд
                 </div>
 
-                <button class="replay-btn" onclick="location.reload()">Урилга дахин үзэх</button>
-                <button id="closeBtn" onclick="closeApp()">ХААХ</button>
+                <!-- Хандив товчлуур -->
+                <button class="btn-small" id="donateBtn" onclick="toggleDonation()">🎁 ХАНДИВ ӨРГӨХ</button>
+
+                <div id="donationSection">
+                    <div class="bank-info">
+                        БАНК: <span>ГОЛОМТ БАНК</span><br>
+                        ДАНС: <span>8115100000</span><br>
+                        НЭР: <span>СЭЛЭНГЭ ҮҮРИЙН ШҮҮДЭР</span><br>
+                        УТГА: <span>Өөрийн нэр, Сэлэнгэ</span>
+                    </div>
+                    <button class="btn-small" style="border:none; text-decoration: underline;" onclick="toggleDonation()">Буцах</button>
+                </div>
+
+                <button class="btn-small" style="margin-top: 20px; opacity:0.6; border:none;" onclick="location.reload()">Дахин үзэх</button>
             </div>
         </div>
-        <p style="font-size: 0.55rem; margin-top: 30px; opacity: 0.4; letter-spacing: 2px;">ҮҮРИЙН ШҮҮДЭР ЧУУЛГАН | 2005-2025</p>
     </div>
 
+    <audio id="bgMusic" src="music.mp3" loop></audio>
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -161,15 +136,14 @@
                 videoId: 'Um9Djsv5nK4', 
                 playerVars: {
                     'autoplay': 0,
-                    'controls': 0,
+                    'controls': 0, // Удирдлагыг бүрэн нуусан
                     'rel': 0,
                     'modestbranding': 1,
                     'playsinline': 1,
+                    'disablekb': 1, // Гарны товчлуур хаах
                     'vq': 'hd720'
                 },
-                events: {
-                    'onStateChange': onPlayerStateChange
-                }
+                events: { 'onStateChange': onPlayerStateChange }
             });
         }
 
@@ -186,8 +160,6 @@
             if (event.data == YT.PlayerState.PLAYING) {
                 bgMusic.pause();
                 startCheckingTime();
-            } else {
-                stopCheckingTime();
             }
         }
 
@@ -195,7 +167,6 @@
             checkTimer = setInterval(() => {
                 let duration = player.getDuration();
                 let currentTime = player.getCurrentTime();
-                // 5 секунд дутуу байхад картыг харуулна
                 if (duration > 0 && (duration - currentTime <= 5)) {
                     showFinalCard();
                     clearInterval(checkTimer);
@@ -203,16 +174,22 @@
             }, 500);
         }
 
-        function stopCheckingTime() { clearInterval(checkTimer); }
-
         function showFinalCard() {
             inviteCard.style.display = 'flex';
             bgMusic.volume = 0.4;
             bgMusic.play();
         }
 
-        function closeApp() {
-            document.body.innerHTML = `<div style="background:#000; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Cinzel'; color:#d4af37;">БАЯРЛАЛАА</div>`;
+        function toggleDonation() {
+            const section = document.getElementById('donationSection');
+            const donateBtn = document.getElementById('donateBtn');
+            if (section.style.display === 'none' || section.style.display === '') {
+                section.style.display = 'block';
+                donateBtn.style.display = 'none';
+            } else {
+                section.style.display = 'none';
+                donateBtn.style.display = 'block';
+            }
         }
 
         // Snow Animation
@@ -223,16 +200,11 @@
         window.addEventListener('resize', resize); resize();
         class Snowflake {
             constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width; this.y = -10;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speed = Math.random() * 0.4 + 0.2;
-                this.opacity = Math.random() * 0.4;
-            }
+            reset() { this.x = Math.random() * canvas.width; this.y = -10; this.size = Math.random() * 1.5 + 0.5; this.speed = Math.random() * 0.4 + 0.2; this.opacity = Math.random() * 0.4; }
             update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
             draw() { ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-        for (let i = 0; i < 60; i++) particles.push(new Snowflake());
+        for (let i = 0; i < 50; i++) particles.push(new Snowflake());
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
     </script>
